@@ -2,7 +2,7 @@
 <div class="myAppViewer">
     <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
     <HeaderOfApp nameApp="Todo List"/>
-    <TodoViewer itemName="Items Name"/>
+    <TodoViewer itemName="Items Name" @data-updated="handleData"/>
     <FooterOfApp/>
 </div>
 </template>
@@ -19,6 +19,22 @@ export default {
     TodoViewer,
     FooterOfApp,
   },
+  methods: {
+    handleData(dataArray) {
+      console.log(dataArray)
+    },
+    isValid() {
+      const newTodo = document.getElementById('inputNewTodo').value;
+      if(newTodo === "") {
+        return false
+      }
+    }
+
+  },
+  mounted() {
+    this.isValid()
+    console.log(this.newTodo)
+  }
 }
 </script>
 

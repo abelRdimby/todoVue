@@ -1,8 +1,9 @@
 <script>
-import BtnClear from '../assets/button.vue'
+import BtnClear from '../assets/button.vue';
 
 export default {
   name: 'TodoViewer',
+
   props: {
     itemName: String,
   },
@@ -11,28 +12,73 @@ export default {
   },
   data() {
     return {
-      loadDataFromLocalStorage: [
-            {
-                akoho: 'Todo 01'
-            },
-            {
-                name: 'Todo 02'
-            },
-            {
-                name: 'Todo 03'
-            },
-      ],
+      tableauRécupéré: [],
+    };
+  },
+
+  mounted() {
+    let tableauString = localStorage.getItem('tableau');
+    if (tableauString) {
+      this.tableauRécupéré = JSON.parse(tableauString);
     }
-      
-  },  
-}
+    this.saveArray();
+    this.sendData();
+  },
+
+  methods: {
+    saveArray() {
+      var monTableau = [
+        {
+          name: 'Todo 01',
+          id: 1,
+        },
+        {
+          name: 'Todo 02',
+          id: 2,
+        },
+        {
+          name: 'Todo 03',
+          id: 3,
+        },
+        {
+          name: 'Todo 04',
+          id: 4,
+        },
+        {
+          name: 'Todo 05',
+          id: 5,
+        },
+        {
+          name: 'Todo 06',
+          id: 6,
+        },
+      ];
+      var tableauString = JSON.stringify(monTableau);
+      localStorage.setItem('tableau', tableauString);
+    },
+    sendData() {
+      const dataArray = this.tableauRécupéré;
+      this.$emit('data-updated', dataArray);
+    },
+  },
+
+  watch: {
+    tableauRécupéré: {
+      handler() {
+        this.saveArray();
+      },
+      deep: true,
+    },
+  },
+};
 </script>
 
 <template>
   <div class="appBody">
-    <div class="listItems">
-      
-      <div class="items" v-for="(u, index) in loadDataFromLocalStorage"
+    <div class="itemsView">
+      <div class="listItems">
+      <!-- <TodoCard /> -->
+      <div class="items" v-for="(u, index) in tableauRécupéré"
         :key="`u-${index}`"
         :data="u">
         <div class="itemBox">
@@ -58,23 +104,24 @@ export default {
       </div>
 
     </div>
+    </div>
     <BtnClear btnName="Clear All"/>
   </div>
 
 </template>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped >
 .appBody {
   width: 250px;
   padding-inline: 20px;
   font-weight: normal;
+  
+
   .listItems {
-    // border: 1px var(--grey) solid;
+    border: 1px var(--grey) solid;
     width: 100%;
     height: 202px;
-    margin-block: 10px;
-    padding: 0;
+    padding: 0 auto 0;
   }
   .items {
     border: 1px var(--grey) solid;
@@ -108,5 +155,32 @@ export default {
     }
 svg {
   color: var(--red);
+}
+.itemsView{
+    overflow: hidden;
+}
+.itemsView::-webkit-scrollbar{
+    width: 5px;
+    opacity: 0;
+}
+.itemsView::-webkit-scrollbar-track{
+    background:rgb(218, 213, 213);
+    border-radius: 10px;
+    opacity: 0;
+}
+.itemsView::-webkit-scrollbar-thumb{
+    background: white;
+    border-radius: 20px;
+    height: 20px;
+    opacity: 0;
+}
+.itemsView::-webkit-scrollbar-thums:hover{
+    background: rgb(167, 167, 167);
+    opacity: 100%;
+}
+  .itemsView:hover {
+    overflow-y: scroll;
+    overflow-x: none;
+    
 }
 </style>

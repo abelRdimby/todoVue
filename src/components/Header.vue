@@ -4,7 +4,7 @@ export default {
   props: {
     nameApp: String,
     finderTag: String,
-  }
+  },
 }
 </script>
 
@@ -24,9 +24,10 @@ export default {
             </svg>
             </div>
           </a>
-        <input class="searchInput" type="text" placeholder="Search Todo">
+        <input class="searchInput" id="inputNewTodo" v-model="recherche" type="text" placeholder="Search Todo">
+
       </div>
-      
+
     </div>
   </div>
 </template>
