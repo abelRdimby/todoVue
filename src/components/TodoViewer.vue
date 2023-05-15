@@ -6,70 +6,12 @@ export default {
 
   props: {
     itemName: String,
+    dataArray: Array,
   },
   components: {
     BtnClear,
   },
-  data() {
-    return {
-      tableauRécupéré: [],
-    };
-  },
 
-  mounted() {
-    let tableauString = localStorage.getItem('tableau');
-    if (tableauString) {
-      this.tableauRécupéré = JSON.parse(tableauString);
-    }
-    this.saveArray();
-    this.sendData();
-  },
-
-  methods: {
-    saveArray() {
-      var monTableau = [
-        {
-          name: 'Todo 01',
-          id: 1,
-        },
-        {
-          name: 'Todo 02',
-          id: 2,
-        },
-        {
-          name: 'Todo 03',
-          id: 3,
-        },
-        {
-          name: 'Todo 04',
-          id: 4,
-        },
-        {
-          name: 'Todo 05',
-          id: 5,
-        },
-        {
-          name: 'Todo 06',
-          id: 6,
-        },
-      ];
-      var tableauString = JSON.stringify(monTableau);
-      localStorage.setItem('tableau', tableauString);
-    },
-    sendData() {
-      const dataArray = this.tableauRécupéré;
-      this.$emit('data-updated', dataArray);
-    },
-  },
-
-  watch: {
-    tableauRécupéré: {
-      handler() {
-        this.saveArray();
-      },
-      deep: true,
-    },
-  },
 };
 </script>
 
@@ -78,7 +20,7 @@ export default {
     <div class="itemsView">
       <div class="listItems">
       <!-- <TodoCard /> -->
-      <div class="items" v-for="(u, index) in tableauRécupéré"
+      <div class="items" v-for="(u, index) in dataArray"
         :key="`u-${index}`"
         :data="u">
         <div class="itemBox">
