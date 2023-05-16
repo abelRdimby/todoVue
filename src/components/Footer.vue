@@ -4,6 +4,26 @@ export default {
   props: {
     nameApp: String,
     finderTag: String,
+  },
+  data() {
+    return {
+      newTodo: '',
+    }
+  },
+  methods: {
+    addTodo() {
+      if(this.newTodo.trim() !== '') {
+
+        const newTodoItem = {
+          name: this.newTodo,
+          id: Date.now(),
+        };
+
+        this.$emit('todo-added', newTodoItem)
+        this.newTodo = ''
+      }
+      console.log('addTodo')
+    },
   }
 }
 </script>
@@ -14,9 +34,9 @@ export default {
     <div class="inputContainer">
       <div class="inputSection">
           <div class="addIcon">
-            <a href="/">+Add</a>
+            <a href="/" @click="addTodo">+Add</a>
         </div>
-        <input class="addNewTodo" type="text" placeholder="Add New Todo">
+        <input class="addNewTodo" type="text" v-model.lazy="newTodo" placeholder="Add New Todo">
       </div>
       
     </div>

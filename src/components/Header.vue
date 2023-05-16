@@ -4,8 +4,16 @@ export default {
   props: {
     nameApp: String,
     finderTag: String,
+    searchQuery: String,
   },
-}
+  methods: {
+    performSearch(event) {
+      const query = event.target.value;
+      this.$emit('update:searchQuery', query);
+      this.$emit('search-updated', query);
+    },
+  },
+};
 </script>
 
 <template>
@@ -24,7 +32,7 @@ export default {
             </svg>
             </div>
           </a>
-        <input class="searchInput" id="inputNewTodo" v-model="recherche" type="text" placeholder="Search Todo">
+        <input class="searchInput" :value="searchQuery" @input="performSearch" type="text" placeholder="Search Todo">
 
       </div>
 
