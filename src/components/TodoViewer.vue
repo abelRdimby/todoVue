@@ -6,10 +6,21 @@ export default {
 
   props: {
     itemName: String,
-    dataArray: Array,
+    dataArray: {
+      type: Array,
+      required: true,
+    }
   },
   components: {
     BtnClear,
+  },
+  methods: {
+    deleteItem(itemId) {
+      this.$emit('item-deleted', itemId);
+    },
+    clearAll() {
+      this.$emit('')
+    }
   },
   
 
@@ -21,18 +32,17 @@ export default {
     <div class="itemsView">
       <div class="listItems">
       <!-- <TodoCard /> -->
-      <div class="items" v-for="(u, index) in dataArray"
-        :key="`u-${index}`"
-        :data="u">
+      <div class="items" v-for="(item, index) in dataArray"
+        :key="`item-${index}`"
+        :data="item">
         <div class="itemBox">
           <input class="checkBox" type="checkbox">
         </div>
         <div class="itemName">
-          <p>{{ u.name }}</p>
+          <p>{{ item.name }}</p>
         </div>
         <div class="itemBox">
-          
-          <a href="/" @click="deleteItem(index)">
+          <a href="/" @click="deleteItem(item.id)">
             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                         <path d="M4 7l16 0"></path>
@@ -48,7 +58,7 @@ export default {
 
     </div>
     </div>
-    <BtnClear btnName="Clear All"/>
+    <BtnClear btnName="Clear All" @click="$emit('clear-all')"/>
   </div>
 
 </template>

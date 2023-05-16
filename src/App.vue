@@ -10,6 +10,8 @@
       itemName="Items Name"
       :dataArray="filteredArray"
       @data-updated="updateDataArray"
+      @item-deleted="deleteItem"
+      @clear-all="clearAll"
     />
     <FooterOfApp @todo-added="addNewTodo" />
   </div>
@@ -88,6 +90,8 @@ export default {
     },
     updateDataArray(newDataArray) {
       this.tableauRécupéré = newDataArray;
+      this.filterDataArray();
+      this.saveArray();
     },
     updatedSearchQuery(query) {
       this.searchQuery = query;
@@ -97,6 +101,16 @@ export default {
       this.filteredArray = this.tableauRécupéré.filter(item => {
         return item.name.toLowerCase().includes(this.searchQuery.toLowerCase());
       });
+    },
+    deleteItem(itemId) {
+      this.tableauRécupéré = this.tableauRécupéré.filter(item => item.id !== itemId);
+      this.filterDataArray();
+      this.saveArray();
+    },
+    clearAll() {
+      this.tableauRécupéré = [],
+      this.saveArray();
+      this.filterDataArray();
     },
   },
 };
